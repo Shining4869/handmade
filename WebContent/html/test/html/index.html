@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>控制台 - Bootstrap后台管理系统模版Ace下载</title>
+    <meta name="keywords" content="Bootstrap模版,Bootstrap模版下载,Bootstrap教程,Bootstrap中文" />
+    <meta name="description" content="站长素材提供Bootstrap模版,Bootstrap教程,Bootstrap中文翻译等相关Bootstrap插件下载" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- basic styles --> 
+    <script type="text/javascript"  src="../js/jquery-2.0.3.min.js"></script>
+    
+    <script type="text/javascript">
+    	var  baseUrl = "http://192.168.1.109:8080";
+    //	sessionStorage.setItem("key", "value"); 	localStorage.setItem("site", "js8.in");
+    //var value = sessionStorage.getItem("key"); 	var site = localStorage.getItem("site");
+    //sessionStorage.removeItem("key"); 	localStorage.removeItem("site");
+    var  appToken = 1111;
+    	$(function(){
+    	
+    		$("#testFile").bind("click",function(){
+    			$.ajax({
+    		 		   type: "POST",
+    		 		   url: baseUrl+"/app/test",
+    		 		   data: {name:"名字测试啊","appToken":appToken},
+    		 		   success: function(data){
+    		 		     	alert(data.message)
+    		 		   },
+    		 		   dataType: "json"
+    		 		});
+    		})
+    		
+    		
+    		$("#login").bind("click",function(){
+    			$.ajax({
+    		 		   type: "POST",
+    		 		   url: "app/login",
+    		 		   data: {name:"名字测试啊","appToken":appToken},
+    		 		   success: function(data){
+    		 		     	alert(data.message)
+    		 		     	appToken = data.result;
+    		 		   },
+    		 		   dataType: "json"
+    		 		});
+    		})
+    	})
+    	
+    </script>
+    	
+    	
+    
+  </head>
+
+  <body>
+  	<center>
+    <button id="testFile"> ajax  (file.htm) </button>
+    
+    
+    </center>
+    <center>
+    <button id="login"> login  (file.htm) </button>
+    </center>
+</body>
+</html>
+

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <!-- 修改成本地的地址 -->
+	<classPathEntry location="D:\java\workspace\handmade\WebContent\tool\mysql-connector-java-5.1.27.jar" />
+	<context id="context1">
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://123.57.14.162/handmade" userId="root"
+			password="Zgd_352067912F_d" />
+		<javaModelGenerator targetPackage="com.handmade.cn.entity"
+			targetProject="handmade/src/main/java">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+		<sqlMapGenerator targetPackage="com.handmade.cn.mapper"
+			targetProject="handmade/src/main/resources">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+		<javaClientGenerator targetPackage="com.handmade.cn.mapper"
+			targetProject="handmade/src/main/java" type="XMLMAPPER">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+		
+		<!-- 表，仅仅需要更改表名就可 -->
+		<table tableName="dianzanlog" modelType="flat" domainObjectName="dianzan.Dianzanlog"
+			enableInsert="true" enableSelectByPrimaryKey="true"
+			enableSelectByExample="false" enableUpdateByPrimaryKey="true"
+			enableDeleteByPrimaryKey="true" enableDeleteByExample="false"
+			enableCountByExample="false" enableUpdateByExample="false"
+			escapeWildcards="true">
+		</table>
+		
+	</context>
+</generatorConfiguration>

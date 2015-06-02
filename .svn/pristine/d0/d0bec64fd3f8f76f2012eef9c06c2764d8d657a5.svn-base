@@ -1,0 +1,153 @@
+<#escape x as x!"">
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title></title>
+    <link href="${request.contextPath}/resources/pad/css/style.css" rel="stylesheet" type="text/css">
+    <link href="${request.contextPath}/resources/pad/css/idangerous.swiper.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" charset="utf-8" src="${request.contextPath}/resources/pad/js/shining.js"></script>
+    <script src="${request.contextPath}/resources/pad/js/jquery-2.1.3.min.js"></script>
+    <script src="${request.contextPath}/resources/pad/js/idangerous.swiper.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#trans_btn > li').click(function(){
+                var index = $(this).index();
+                $('#trans_btn > li').removeClass('on').eq(index).addClass('on');
+                $('#trans_details > div').hide().eq(index).show();
+            })
+        });
+        $(document).ready(function(){
+            loadDetail();
+        });
+    </script>
+</head>
+<body>
+<div class="header">
+    <h1>作品详情</h1>
+</div>
+<div class="wrap">
+    <div class="trans_wr">
+        <ul id="trans_btn" class="trans_btn">
+            <li class="on" style="width:100%">概览</li>
+            <!--<li>教程</li>-->
+        </ul>
+    </div>
+    <div id="trans_details">
+        <div id="product" class="product" style="display: block;">
+            <div class="device">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                    	<#if images??>
+                    	<#list images as image>
+                        <div class="swiper-slide"><img src="${request.contextPath}/resources/admin/store/${image}"></div>
+                        </#list>
+                        </#if>
+                    </div>
+                </div>
+                <div class="pagination"></div>
+            </div>
+            <div class="title_wr">
+                <div class="title">
+                    <h3>${productInfo.title}</h3>
+                    <p>${productInfo.content}</p>
+                </div>
+                <div style="width: 50%;text-align: center;float: left;margin-top: 10px;">
+                    <a href="#" class="title_btn"><span class="icon icon_share"></span>分享</a>
+                </div>
+                <div style="width: 50%;text-align: center;float: left;margin-top: 10px;">
+                    <a onclick="toPraise(${productInfo.id},'${request.contextPath}/admin/product/toPraise');" class="title_btn"><span class="icon icon_aixin"></span>${productInfo.greatNum}</a>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="bg_line"></div>
+            <div class="product_details">
+                <h3>材料清单</h3>
+                <table bordercolor="#cccccc" border="1" style="width: 100%;border-collapse: collapse;line-height: 23px;">
+                <thead>
+                <tr>
+                <th width="25%">编号</th>
+                <th width="25%">名称</th>
+                <th width="25%">规格</th>
+                <th width="25%">颜色</th>
+                </tr>
+                </thead>
+                <tbody>
+                	<#if materialInfos??>
+                	<#list materialInfos as materialInfo>
+                <tr>
+                <th>${materialInfo.materialName}</th>
+                <th>${materialInfo.more1}</th>
+                <th>${materialInfo.materialSpecification}</th>
+                <th>${materialInfo.more2}</th>
+                </tr>
+                	</#list>
+                	</#if>
+                </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="course" class="course" style="display: none;">
+            <div class="course_01">
+                <img src="${request.contextPath}/resources/pad/image/picture1.fw.png" width="100px">
+                <h3>标题</h3>
+                <p>足球比赛规则由国际足球协会理事会(IFAB)制定并修改，是足球比赛所必须遵守的规则场地面积场地必须是长方形，边线的长度必须长于球门线的长度。长度90-120米。</p>
+            </div>
+            <div class="bg_line"></div>
+            <div class="course_02">
+                <ul>
+                	<#if materialInfos??>
+                	<#list materialInfos as materialInfo>
+                    <li>
+                    	<span>${materialInfo.materialName}</span>
+                        <!--<img src="${request.contextPath}/resources/pad/image/picture2.fw.png" width="100%">-->
+                    </li>
+                    </#list>
+                    </#if>
+                </ul>
+                <div style="width: 100%;text-align: center;margin-bottom: 10px;">
+                    <a href="#" class="course_02_btn">技法<span class="icon_round"></span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var mySwiper = new Swiper('.swiper-container',{
+        pagination: '.pagination',
+        loop:true,
+        grabCursor: true,
+        paginationClickable: true,
+        autoplay: 3000,
+        speed: 1500,
+        calculateHeight: true,
+        onSwiperCreated: function(swiper){
+            $(".swiper-pagination-switch:eq(0)").addClass('swiper-visible-switch').addClass('swiper-active-switch');
+            swiper.reInit();
+        }
+    });
+
+
+function toPraise(id,url){
+	$.ajax({
+		   type: "GET",
+		   url: url,
+		   data: {"id":id},
+		   success: function(data){
+		     if(data.isSuccess){
+		    	alert("点赞成功");
+		    	location.href=location.href;
+		    	//
+		     }else{
+		    	alert(data.message);
+		    	location.href=location.href;
+		     }
+		   },
+		   dataType: "json"
+		});
+}
+</script>
+</body>
+</html>
+</#escape>

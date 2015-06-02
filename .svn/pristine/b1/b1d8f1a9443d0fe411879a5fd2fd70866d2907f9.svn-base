@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.handmade.cn.mapper.user.UserInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.handmade.cn.entity.user.UserInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="contestant_name" property="contestantName" jdbcType="VARCHAR" />
+    <result column="openid" property="openid" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="weixin" property="weixin" jdbcType="VARCHAR" />
+    <result column="first_time" property="firstTime" jdbcType="DATE" />
+    <result column="first_ap" property="firstAp" jdbcType="VARCHAR" />
+    <result column="second_time" property="secondTime" jdbcType="DATE" />
+    <result column="second_ap" property="secondAp" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="more1" property="more1" jdbcType="VARCHAR" />
+    <result column="more2" property="more2" jdbcType="VARCHAR" />
+    <result column="more3" property="more3" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, contestant_name, openid, mobile, weixin,first_time, first_ap, second_time, second_ap, 
+    create_time, update_user, update_time, more1, more2, more3
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByFirstTime" resultType="java.lang.Integer" parameterType="com.handmade.cn.entity.user.UserInfo" >
+    select 
+    count(*) 
+    from user_info
+    where 1=1 
+    <if test="firstTime != null and firstTime != ''" >
+        and first_time = #{firstTime,jdbcType=DATE}
+      </if>
+      <if test="firstAp != null" >
+        and first_ap = #{firstAp,jdbcType=VARCHAR}
+      </if>
+  </select>
+  <select id="selectBySecondTime" resultType="java.lang.Integer" parameterType="com.handmade.cn.entity.user.UserInfo" >
+    select 
+    count(*) 
+    from user_info
+    where 1=1 
+      <if test="secondTime != null and secondTime != ''" >
+        and second_time = #{secondTime,jdbcType=DATE}
+      </if>
+      <if test="secondAp != null" >
+        and second_ap = #{secondAp,jdbcType=VARCHAR}
+      </if>
+  </select>
+  <select id="findByOpenId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_info
+    where openid = #{openid,jdbcType=VARCHAR}
+  </select>
+  <select id="query" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from user_info
+    where 1=1 
+    <if test="contestantName != null and contestantName != ''" >
+        and contestant_name = #{contestantName,jdbcType=VARCHAR}
+      </if>
+      <if test="openid != null and openid != ''" >
+        and openid = #{openid,jdbcType=VARCHAR}
+      </if>
+      <if test="mobile != null and mobile != ''" >
+        and mobile = #{mobile,jdbcType=VARCHAR}
+      </if>
+      <if test="weixin != null and weixin != ''" >
+        and weixin = #{weixin,jdbcType=VARCHAR}
+      </if>
+      <if test="firstTime != null and firstTime != ''" >
+        and first_time = #{firstTime,jdbcType=DATE}
+      </if>
+      <if test="firstAp != null" >
+        and first_ap = #{firstAp,jdbcType=VARCHAR}
+      </if>
+      <if test="secondTime != null and secondTime != ''" >
+        and second_time = #{secondTime,jdbcType=DATE}
+      </if>
+      <if test="secondAp != null" >
+        and second_ap = #{secondAp,jdbcType=VARCHAR}
+      </if>
+      <if test="createTime != null" >
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateUser != null" >
+        and update_user = #{updateUser,jdbcType=VARCHAR}
+      </if>
+      <if test="updateTime != null" >
+        and update_time = #{updateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="more1 != null" >
+        and more1 = #{more1,jdbcType=VARCHAR}
+      </if>
+      <if test="more2 != null" >
+        and more2 = #{more2,jdbcType=VARCHAR}
+      </if>
+      <if test="more3 != null" >
+        and more3 = #{more3,jdbcType=VARCHAR}
+      </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.handmade.cn.entity.user.UserInfo" >
+    insert into user_info (id, contestant_name, openid, 
+      mobile,weixin, first_time, first_ap, 
+      second_time, second_ap, create_time, 
+      update_user, update_time, more1, 
+      more2, more3)
+    values (#{id,jdbcType=INTEGER}, #{contestantName,jdbcType=VARCHAR}, #{openid,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR},#{weixin,jdbcType=VARCHAR}, #{firstTime,jdbcType=DATE}, #{firstAp,jdbcType=VARCHAR}, 
+      #{secondTime,jdbcType=DATE}, #{secondAp,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{more1,jdbcType=VARCHAR}, 
+      #{more2,jdbcType=VARCHAR}, #{more3,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.handmade.cn.entity.user.UserInfo" >
+    insert into user_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="contestantName != null" >
+        contestant_name,
+      </if>
+      <if test="openid != null" >
+        openid,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="weixin != null" >
+        weixin,
+      </if>
+      <if test="firstTime != null" >
+        first_time,
+      </if>
+      <if test="firstAp != null" >
+        first_ap,
+      </if>
+      <if test="secondTime != null" >
+        second_time,
+      </if>
+      <if test="secondAp != null" >
+        second_ap,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="more1 != null" >
+        more1,
+      </if>
+      <if test="more2 != null" >
+        more2,
+      </if>
+      <if test="more3 != null" >
+        more3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="contestantName != null" >
+        #{contestantName,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="weixin != null" >
+        #{weixin,jdbcType=VARCHAR},
+      </if>
+      <if test="firstTime != null" >
+        #{firstTime,jdbcType=DATE},
+      </if>
+      <if test="firstAp != null" >
+        #{firstAp,jdbcType=VARCHAR},
+      </if>
+      <if test="secondTime != null" >
+        #{secondTime,jdbcType=DATE},
+      </if>
+      <if test="secondAp != null" >
+        #{secondAp,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="more1 != null" >
+        #{more1,jdbcType=VARCHAR},
+      </if>
+      <if test="more2 != null" >
+        #{more2,jdbcType=VARCHAR},
+      </if>
+      <if test="more3 != null" >
+        #{more3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.handmade.cn.entity.user.UserInfo" >
+    update user_info
+    <set >
+      <if test="contestantName != null" >
+        contestant_name = #{contestantName,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null" >
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="weixin != null" >
+        weixin = #{weixin,jdbcType=VARCHAR},
+      </if>
+      <if test="firstTime != null" >
+        first_time = #{firstTime,jdbcType=DATE},
+      </if>
+      <if test="firstAp != null" >
+        first_ap = #{firstAp,jdbcType=VARCHAR},
+      </if>
+      <if test="secondTime != null" >
+        second_time = #{secondTime,jdbcType=DATE},
+      </if>
+      <if test="secondAp != null" >
+        second_ap = #{secondAp,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="more1 != null" >
+        more1 = #{more1,jdbcType=VARCHAR},
+      </if>
+      <if test="more2 != null" >
+        more2 = #{more2,jdbcType=VARCHAR},
+      </if>
+      <if test="more3 != null" >
+        more3 = #{more3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.handmade.cn.entity.user.UserInfo" >
+    update user_info
+    set contestant_name = #{contestantName,jdbcType=VARCHAR},
+      openid = #{openid,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      weixin = #{weixin,jdbcType=VARCHAR},
+      first_time = #{firstTime,jdbcType=DATE},
+      first_ap = #{firstAp,jdbcType=VARCHAR},
+      second_time = #{secondTime,jdbcType=DATE},
+      second_ap = #{secondAp,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      more1 = #{more1,jdbcType=VARCHAR},
+      more2 = #{more2,jdbcType=VARCHAR},
+      more3 = #{more3,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,161 @@
+package com.handmade.cn.action.product;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+import com.handmade.cn.bean.product.ProductInfoBean;
+import com.handmade.cn.entity.material.MaterialInfo;
+import com.handmade.cn.entity.product.ProductCategory;
+import com.handmade.cn.entity.product.ProductInfo;
+import com.handmade.cn.service.material.MaterialSerivice;
+import com.handmade.cn.service.product.ProductCategoryService;
+import com.handmade.cn.service.product.ProductService;
+import com.handmade.cn.utils.JsonMapper;
+import com.handmade.cn.utils.ParamUtils;
+import com.handmade.cn.web.action.BaseController;
+import com.handmade.cn.web.interceptor.AdminUserLogin;
+
+@Controller
+@RequestMapping("admin/product")
+//@AdminUserLogin
+public class ProductAction extends BaseController{
+	
+	@Autowired
+	private ProductService productService;
+	@Autowired
+	private MaterialSerivice materialSerivice;
+	@Autowired
+	private ProductCategoryService productCategoryService;
+	
+	@RequestMapping("toAddProduct")
+	public String toAddProduct(Model model,HttpServletRequest request){
+//		System.out.println("length"+id.length);
+		String materialName="";
+//		for (int i = 0; i < id.length; i++) {
+//			
+//		}
+//		model.addAttribute("materialName", materialName);
+		if (ParamUtils.getFilteredParameters(request, "id", 0, "") != null) {
+			materialName+=JsonMapper.toJsonStr(ParamUtils
+					.getFilteredParameters(request, "id", 0, ""));
+		}
+		System.out.println("Name:"+materialName);
+		model.addAttribute("materialName",materialName);
+		List<ProductCategory> productCategories= productCategoryService.findAll();
+		Map<String, Object> maps = materialSerivice.findAllMaterials();
+		model.addAttribute("types", productCategories);
+		model.addAttribute("maps", maps);
+		return "admin/product/toaddproduct";
+	}
+	
+	@ResponseBody
+	@RequestMapping("addProduct")
+	public Object addProduct(ProductInfo productInfo,HttpServletRequest request){
+		String images="";
+		if (ParamUtils.getFilteredParameters(request, "image", 0, "") != null) {
+			images+=JsonMapper.toJsonStr(ParamUtils
+					.getFilteredParameters(request, "image", 0, ""));
+		}
+		productInfo.setImage(images);
+		if (productService.saveOrUpdateProduct(productInfo)) {
+			return suc("保存成功");
+		}else {
+			return fail("保存失败");
+		}
+	}
+	
+	@RequestMapping("toEditProduct/{id}")
+	public String toEditProduct(Model model,HttpServletRequest request,@PathVariable Integer id){
+		ProductInfo productInfo = productService.findById(id);
+		List<ProductCategory> productCategories= productCategoryService.findAll();
+		model.addAttribute("types", productCategories);
+		model.addAttribute("productInfo",productInfo);
+		String images=productInfo.getImage();
+		List<String> list=new ArrayList<String>();
+		images=images.replace("\"", "").replace("[", "").replace("]", "");
+		String [] arr=images.split(",");
+		for (int i = 0; i < arr.length; i++) {
+			if (arr[i].length()>0) {
+				list.add(arr[i]);
+			}
+		}
+		model.addAttribute("imagePaths", list);
+		return "admin/product/toeditproduct";
+	}
+	
+	@ResponseBody
+	@RequestMapping("deleteProduct")
+	public Object deleteProduct(Integer id){
+		Integer n=productService.deleteByPk(id);
+		if (n==null) {
+			return fail("删除失败");
+		}else {
+			return suc("删除成功");
+		}
+	}
+	
+	@RequestMapping("rankOfProduct")
+	public String rankOfProduct(ProductInfoBean productInfoBean,Model model){
+		PageList<ProductInfo> productInfos= productService.orderByGreatNum(productInfoBean);
+		model.addAttribute("products", productInfos);
+		return "handmade/pad/ranking";
+	}
+	
+	@RequestMapping("toProductDetail")
+	public String  toProductDetail(Integer id,Model model){
+		ProductInfo productInfo = productService.findById(id);
+		String images=productInfo.getImage();
+		List<String> list=new ArrayList<String>();
+		images=images.replace("\"", "").replace("[", "").replace("]", "");
+		String [] arr=images.split(",");
+		for (int i = 0; i < arr.length; i++) {
+			if (arr[i].length()>0) {
+				list.add(arr[i]);
+			}
+		}
+		List<MaterialInfo> materialInfos = new ArrayList<MaterialInfo>();
+		String materialIds =productInfo.getMaterials();
+		materialIds=materialIds.replace("\"", "").replace("[", "").replace("]", "").replace("\\", "");
+		String [] arr2=materialIds.split(",");
+		for (int i = 0; i < arr2.length; i++) {
+			if (arr2[i].length()>0) {
+				MaterialInfo materialInfo = materialSerivice.selectByPrimaryKey(Integer.parseInt(arr2[i]));
+				materialInfos.add(materialInfo);
+			}
+		}
+		model.addAttribute("images", list);
+		model.addAttribute("materialInfos", materialInfos);
+		model.addAttribute("productInfo", productInfo);
+		return "handmade/pad/product-detail";
+	}
+	
+	@ResponseBody
+	@RequestMapping("toPraise")
+	public Object toPraise(Integer id){
+		ProductInfo productInfo = productService.selectByPrimaryKey(id);
+		Integer n= productInfo.getGreatNum();
+		System.out.println("greatNum1:"+n);
+		productInfo.setGreatNum(n+1);
+		Integer flag=productService.saveOrUpdate(productInfo);
+		if (flag!=null) {
+			return suc("点赞成功");
+		}else {
+			return fail("点赞失败");
+		}
+		
+	}
+
+}

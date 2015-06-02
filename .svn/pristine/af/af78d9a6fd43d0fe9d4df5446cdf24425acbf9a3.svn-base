@@ -1,0 +1,58 @@
+<#escape x as x!"">
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title></title>
+    <link href="${request.contextPath}/resources/pad/css/style.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" charset="utf-8" src="${request.contextPath}/resources/pad/js/common.js"></script>
+    <script type="text/javascript" charset="utf-8" src="${request.contextPath}/resources/pad/js/shining.js"></script>
+    <script type="text/javascript" charset="utf-8" src="${request.contextPath}/resources/pad/js/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript">
+	var SG = SG || {data:{},util:{}};
+	SG.config = {path:{rootPath:"${request.contextPath}"}}
+	var YS = YS || {data:{},util:{}};
+	YS.config = {path:{rootPath:"${request.contextPath}"}}
+	</script>
+    <script type="text/javascript">
+    
+    
+    </script>
+</head>
+<body>
+<div class="header">
+    <h1>投票排名</h1>
+</div>
+<div class="wrap">
+    <div class="show_pic">
+        <h3>标题</h3>
+        <img src="${request.contextPath}/resources/pad/image/picture3.fw.png" width="100%">
+    </div>
+    <div class="show_ranking">
+        <div class="title_wr">
+            <div class="title">
+                <h3>标题</h3>
+                <p>足球比赛规则由国际足球协会理事会(IFAB)制定并修改，是足球比赛所必须遵守的规则。场地面积场地必须是长方形。</p>
+            </div>
+        </div>
+        <div class="ranking">
+            <ul id="rankingul">
+            	<#if products??>
+            	<#list products as product>
+                <li><a href="${request.contextPath}/admin/product/toProductDetail?id=${product.id}">
+                    <img src="${request.contextPath}/resources/pad/image/user-ava.fw.png" width="80px">
+                    </a>
+                    <p><span>作者：</span><span class="gray">${product.author}</span></p>
+                    <p><img src="${request.contextPath}/resources/pad/image/dianzan.fw.png" width="40px"><span class="orange">${product.greatNum}</span></p>
+                </li>
+                </#list>
+                </#if>
+            </ul>
+            <a href="#" class="submit_btn">加载更多</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+</#escape>

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.handmade.cn.mapper.product.ProductCategoryMapper" >
+  <resultMap id="BaseResultMap" type="com.handmade.cn.entity.product.ProductCategory" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="cate_name" property="cateName" jdbcType="VARCHAR" />
+    <result column="more1" property="more1" jdbcType="VARCHAR" />
+    <result column="more2" property="more2" jdbcType="VARCHAR" />
+    <result column="int_1" property="int1" jdbcType="INTEGER" />
+    <result column="int_2" property="int2" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, cate_name, more1, more2, int_1, int_2, create_time, create_user, update_time, 
+    update_user
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from product_category
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="findAll" resultMap="BaseResultMap"  >
+    select 
+    * 
+    from product_category
+  </select>
+  <select id="query" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from product_category
+    where 1 = 1
+      <if test="cateName != null and cateName!=''" >
+        and cate_name = #{cateName,jdbcType=VARCHAR}
+      </if>
+      <if test="more1 != null" >
+        and more1 = #{more1,jdbcType=VARCHAR}
+      </if>
+      <if test="more2 != null" >
+        and more2 = #{more2,jdbcType=VARCHAR}
+      </if>
+      <if test="int1 != null" >
+        and int_1 = #{int1,jdbcType=INTEGER}
+      </if>
+      <if test="int2 != null" >
+        and int_2 = #{int2,jdbcType=INTEGER}
+      </if>
+      <if test="createTime != null" >
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createUser != null" >
+        and create_user = #{createUser,jdbcType=VARCHAR}
+      </if>
+      <if test="updateTime != null" >
+        and update_time = #{updateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateUser != null" >
+        and update_user = #{updateUser,jdbcType=VARCHAR}
+      </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from product_category
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert"  >
+    insert into product_category (id, cate_name, more1, 
+      more2, int_1, int_2, 
+      create_time, create_user, update_time, 
+      update_user)
+    values (#{id,jdbcType=INTEGER}, #{cateName,jdbcType=VARCHAR}, #{more1,jdbcType=VARCHAR}, 
+      #{more2,jdbcType=VARCHAR}, #{int1,jdbcType=INTEGER}, #{int2,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id">
+    insert into product_category
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="cateName != null" >
+        cate_name,
+      </if>
+      <if test="more1 != null" >
+        more1,
+      </if>
+      <if test="more2 != null" >
+        more2,
+      </if>
+      <if test="int1 != null" >
+        int_1,
+      </if>
+      <if test="int2 != null" >
+        int_2,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cateName != null" >
+        #{cateName,jdbcType=VARCHAR},
+      </if>
+      <if test="more1 != null" >
+        #{more1,jdbcType=VARCHAR},
+      </if>
+      <if test="more2 != null" >
+        #{more2,jdbcType=VARCHAR},
+      </if>
+      <if test="int1 != null" >
+        #{int1,jdbcType=INTEGER},
+      </if>
+      <if test="int2 != null" >
+        #{int2,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective"  >
+    update product_category
+    <set >
+      <if test="cateName != null" >
+        cate_name = #{cateName,jdbcType=VARCHAR},
+      </if>
+      <if test="more1 != null" >
+        more1 = #{more1,jdbcType=VARCHAR},
+      </if>
+      <if test="more2 != null" >
+        more2 = #{more2,jdbcType=VARCHAR},
+      </if>
+      <if test="int1 != null" >
+        int_1 = #{int1,jdbcType=INTEGER},
+      </if>
+      <if test="int2 != null" >
+        int_2 = #{int2,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey"  >
+    update product_category
+    set cate_name = #{cateName,jdbcType=VARCHAR},
+      more1 = #{more1,jdbcType=VARCHAR},
+      more2 = #{more2,jdbcType=VARCHAR},
+      int_1 = #{int1,jdbcType=INTEGER},
+      int_2 = #{int2,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

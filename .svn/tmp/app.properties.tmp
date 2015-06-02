@@ -1,0 +1,49 @@
+#oracle version database setting
+jdbc.driver=com.mysql.jdbc.Driver
+#jdbc.url=jdbc:mysql://42.96.150.153:3306/yephouse?useUnicode=true&characterEncoding=UTF-8
+#jdbc.password=26a5d88f2a
+
+#//  \u6b63\u5f0f
+jdbc.url=jdbc:mysql://123.57.14.162:3306/handmade?useUnicode=true&characterEncoding=UTF-8
+jdbc.password=Zgd_352067912F_d
+jdbc.username=root
+#root3306  121.40.152.3
+
+#c3p0 settings
+#c3p0.maxPoolSize=3
+#c3p0.minPoolSize=1
+
+#image path
+<<<<<<< .mine
+yephouse.image.path=/Users/zgdcool/Documents/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp7/wtpwebapps/handmade/html/admin/store
+=======
+#yephouse.image.path=/Users/jiangjianlong/Desktop/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp5/wtpwebapps/handmade/html/admin
+yephouse.image.path=D:/java/workspace/handmade/WebContent/html/admin
+>>>>>>> .r30
+#yephouse.image.path=/Users/zgdcool/Documents/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/yephouse1/html/admin
+toupiaoImage=/Users/zgdcool/Documents/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/handmade/html/toupiao
+
+#druid datasource
+#see https://github.com/alibaba/druid/wiki/%E9%85%8D%E7%BD%AE_DruidDataSource%E5%8F%82%E8%80%83%E9%85%8D%E7%BD%AE
+druid.initialSize=3
+druid.minIdle=3
+druid.maxActive=5
+druid.maxWait=60000
+druid.timeBetweenEvictionRunsMillis=60000
+druid.minEvictableIdleTimeMillis=300000
+druid.validationQuery=SELECT 'x'
+druid.testWhileIdle=true
+druid.testOnBorrow=false
+druid.testOnReturn=false
+druid.poolPreparedStatements=false
+druid.maxPoolPreparedStatementPerConnectionSize=20
+druid.filters=wall,stat
+
+#\u57df\u540d
+fruit.location=http://baby.hzlianhai.com
+#\u652f\u4ed8\u5b9d\u4fe1\u606f
+seller_email=xhzs86901054@163.com
+
+
+
+

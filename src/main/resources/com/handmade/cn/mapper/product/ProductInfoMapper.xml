@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.handmade.cn.mapper.product.ProductInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.handmade.cn.entity.product.ProductInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="weixin" property="weixin" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="materials" property="materials" jdbcType="VARCHAR" />
+    <result column="pre_quality" property="preQuality" jdbcType="DOUBLE" />
+    <result column="great_num" property="greatNum" jdbcType="INTEGER" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="more1" property="more1" jdbcType="VARCHAR" />
+    <result column="more2" property="more2" jdbcType="VARCHAR" />
+    <result column="more3" property="more3" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, title, author, mobile, weixin, type, image, content, materials, pre_quality, 
+    great_num, create_user, create_time, update_user, update_time, more1, more2, more3
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from product_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="orderByGreatNum" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from product_info
+    where 1=1 
+    <if test="title != null and title != ''" >
+        and title = #{title,jdbcType=VARCHAR}
+      </if>
+      <if test="author != null and author !=''" >
+        and author = #{author,jdbcType=VARCHAR}
+      </if>
+      <if test="mobile != null and mobile !='' " >
+        and mobile = #{mobile,jdbcType=VARCHAR}
+      </if>
+      <if test="weixin != null and weixin !=''" >
+        and weixin = #{weixin,jdbcType=VARCHAR}
+      </if>
+      <if test="type != null and type !=''" >
+        and type = #{type,jdbcType=VARCHAR}
+      </if>
+      <if test="image != null" >
+        and image = #{image,jdbcType=VARCHAR}
+      </if>
+      <if test="content != null" >
+        and content = #{content,jdbcType=VARCHAR}
+      </if>
+      <if test="materials != null" >
+        and materials = #{materials,jdbcType=VARCHAR}
+      </if>
+      <if test="preQuality != null" >
+        and pre_quality = #{preQuality,jdbcType=DOUBLE}
+      </if>
+      <if test="greatNum != null" >
+        and great_num = #{greatNum,jdbcType=INTEGER}
+      </if>
+      <if test="createUser != null" >
+        and create_user = #{createUser,jdbcType=VARCHAR}
+      </if>
+      <if test="createTime != null" >
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateUser != null" >
+        and update_user = #{updateUser,jdbcType=VARCHAR}
+      </if>
+      <if test="updateTime != null" >
+        and update_time = #{updateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="more1 != null" >
+        and more1 = #{more1,jdbcType=VARCHAR}
+      </if>
+      <if test="more2 != null" >
+        and more2 = #{more2,jdbcType=VARCHAR}
+      </if>
+      <if test="more3 != null" >
+        and more3 = #{more3,jdbcType=VARCHAR}
+      </if>
+      ORDER BY great_num DESC 
+  </select>
+  <select id="findAllType"  resultType="java.lang.String" >
+    select 
+    distinct(type) 
+    from product_info
+  </select>
+  <select id="query" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from product_info
+    where 1=1 
+    <if test="title != null and title != ''" >
+        and title = #{title,jdbcType=VARCHAR}
+      </if>
+      <if test="author != null and author !=''" >
+        and author = #{author,jdbcType=VARCHAR}
+      </if>
+      <if test="mobile != null and mobile !='' " >
+        and mobile = #{mobile,jdbcType=VARCHAR}
+      </if>
+      <if test="weixin != null and weixin !=''" >
+        and weixin = #{weixin,jdbcType=VARCHAR}
+      </if>
+      <if test="type != null and type !=''" >
+        and type = #{type,jdbcType=VARCHAR}
+      </if>
+      <if test="image != null" >
+        and image = #{image,jdbcType=VARCHAR}
+      </if>
+      <if test="content != null" >
+        and content = #{content,jdbcType=VARCHAR}
+      </if>
+      <if test="materials != null" >
+        and materials = #{materials,jdbcType=VARCHAR}
+      </if>
+      <if test="preQuality != null" >
+        and pre_quality = #{preQuality,jdbcType=DOUBLE}
+      </if>
+      <if test="greatNum != null" >
+        and great_num = #{greatNum,jdbcType=INTEGER}
+      </if>
+      <if test="createUser != null" >
+        and create_user = #{createUser,jdbcType=VARCHAR}
+      </if>
+      <if test="createTime != null" >
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateUser != null" >
+        and update_user = #{updateUser,jdbcType=VARCHAR}
+      </if>
+      <if test="updateTime != null" >
+        and update_time = #{updateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="more1 != null" >
+        and more1 = #{more1,jdbcType=VARCHAR}
+      </if>
+      <if test="more2 != null" >
+        and more2 = #{more2,jdbcType=VARCHAR}
+      </if>
+      <if test="more3 != null" >
+        and more3 = #{more3,jdbcType=VARCHAR}
+      </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from product_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.handmade.cn.entity.product.ProductInfo" >
+    insert into product_info (id, title, author, 
+      mobile, weixin, type, 
+      image, content, materials, 
+      pre_quality, great_num, create_user, 
+      create_time, update_user, update_time, 
+      more1, more2, more3
+      )
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{weixin,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{image,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{materials,jdbcType=VARCHAR}, 
+      #{preQuality,jdbcType=DOUBLE}, #{greatNum,jdbcType=INTEGER}, #{createUser,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{more1,jdbcType=VARCHAR}, #{more2,jdbcType=VARCHAR}, #{more3,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.handmade.cn.entity.product.ProductInfo" >
+    insert into product_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="weixin != null" >
+        weixin,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="image != null" >
+        image,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="materials != null" >
+        materials,
+      </if>
+      <if test="preQuality != null" >
+        pre_quality,
+      </if>
+      <if test="greatNum != null" >
+        great_num,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="more1 != null" >
+        more1,
+      </if>
+      <if test="more2 != null" >
+        more2,
+      </if>
+      <if test="more3 != null" >
+        more3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="weixin != null" >
+        #{weixin,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="materials != null" >
+        #{materials,jdbcType=VARCHAR},
+      </if>
+      <if test="preQuality != null" >
+        #{preQuality,jdbcType=DOUBLE},
+      </if>
+      <if test="greatNum != null" >
+        #{greatNum,jdbcType=INTEGER},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="more1 != null" >
+        #{more1,jdbcType=VARCHAR},
+      </if>
+      <if test="more2 != null" >
+        #{more2,jdbcType=VARCHAR},
+      </if>
+      <if test="more3 != null" >
+        #{more3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.handmade.cn.entity.product.ProductInfo" >
+    update product_info
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="weixin != null" >
+        weixin = #{weixin,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null" >
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="materials != null" >
+        materials = #{materials,jdbcType=VARCHAR},
+      </if>
+      <if test="preQuality != null" >
+        pre_quality = #{preQuality,jdbcType=DOUBLE},
+      </if>
+      <if test="greatNum != null" >
+        great_num = #{greatNum,jdbcType=INTEGER},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="more1 != null" >
+        more1 = #{more1,jdbcType=VARCHAR},
+      </if>
+      <if test="more2 != null" >
+        more2 = #{more2,jdbcType=VARCHAR},
+      </if>
+      <if test="more3 != null" >
+        more3 = #{more3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.handmade.cn.entity.product.ProductInfo" >
+    update product_info
+    set title = #{title,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      weixin = #{weixin,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      image = #{image,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      materials = #{materials,jdbcType=VARCHAR},
+      pre_quality = #{preQuality,jdbcType=DOUBLE},
+      great_num = #{greatNum,jdbcType=INTEGER},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      more1 = #{more1,jdbcType=VARCHAR},
+      more2 = #{more2,jdbcType=VARCHAR},
+      more3 = #{more3,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

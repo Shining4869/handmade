@@ -1,0 +1,30 @@
+<#escape x as x!"">
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title></title>
+    <link href="${request.contextPath}/resources/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="header">
+    <a class="leftButton" href="#"><img src="${request.contextPath}/resources/handmade/image/backBtn.png"></a>
+    <h1>我的赛程</h1>
+    <a class="rightButton" href="#"><img src="${request.contextPath}/resources/handmade/image/point.png"></a>
+</div>
+<div class="container">
+    <div class="pic">
+        <h3>工坊预约</h3>
+        <img src="${request.contextPath}/resources/handmade/image/poster02.png" width="100%">
+    </div>
+    <div class="date_wr">
+        <div class="w_bg">
+            <p>您已预约5月28日</p>
+            <p>请尽快上传作品</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+</#escape>

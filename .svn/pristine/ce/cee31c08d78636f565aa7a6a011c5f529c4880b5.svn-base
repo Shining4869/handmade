@@ -1,0 +1,166 @@
+package com.handmade.cn.action.user;
+
+import java.net.URLEncoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.handmade.cn.conf.AppConfig;
+import com.handmade.cn.entity.user.UserInfo;
+import com.handmade.cn.service.material.MaterialSerivice;
+import com.handmade.cn.service.product.ProductService;
+import com.handmade.cn.service.user.UserInfoService;
+import com.handmade.cn.utils.JsonMapper;
+import com.handmade.cn.web.action.BaseController;
+
+@Controller
+@RequestMapping("userInfo")
+public class UserInfoAction extends BaseController{
+	
+	@Autowired
+	UserInfoService userInfoService;
+	
+	private  int    DAY_ACOUNT = 3;
+	private  int     VALUE_LIMEI = 30;
+	
+	@RequestMapping(value="receivecode")
+	public String redpacket(){
+		String backUri = AppConfig.getAppMap().get("fruitLocation")+"/userInfo/addNum";
+		backUri = URLEncoder.encode(backUri);
+		// scope scope=snsapi_base 不弹出授权页面直接授权,只获取统一支付接口的openid
+		String url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+AppConfig.appid+"&redirect_uri="+backUri
+				+ "&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
+		return "redirect:" + url;
+	}
+	
+	@RequestMapping(value="addNum")
+	public String touPiao(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+		String code = request.getParameter("code");
+		String URL = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="
+				+ AppConfig.appid + "&secret=" + AppConfig.secret + "&code=" + code
+				+ "&grant_type=authorization_code";
+		UserInfo userInfo =null;
+//		FatUser fatUser = null;
+		if (StringUtils.isNotEmpty(code)) {
+			HttpClient httpClient = new HttpClient();
+			GetMethod getMethod = new GetMethod(URL);
+			getMethod.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, new DefaultHttpMethodRetryHandler());
+			int statusCode = httpClient.executeMethod(getMethod);
+			if (statusCode != HttpStatus.SC_OK) {
+				System.err.println("Method failed: " + getMethod.getStatusLine());
+			}
+			String resultStr = getMethod.getResponseBodyAsString();
+			Map<Object, Object> map = (Map<Object, Object>)JsonMapper.readStringValueToMap(resultStr);
+			String openId = (String)map.get("openid");
+			if(StringUtils.isNotEmpty(openId)){
+				userInfo = userInfoService.findByOpenId(openId);
+				if(userInfo==null){
+					String userinfourl = "https://api.weixin.qq.com/sns/userinfo?access_token="+(String)map.get("access_token")+"&openid="+openId+"&lang=zh_CN";
+					GetMethod getMethod1 = new GetMethod(userinfourl);
+					getMethod1.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, new DefaultHttpMethodRetryHandler());
+					getMethod1.getParams().setParameter(HttpMethodParams.HTTP_CONTENT_CHARSET, "UTF-8");
+					statusCode = httpClient.executeMethod(getMethod1);
+					if (statusCode != HttpStatus.SC_OK) {
+						System.err.println("Method failed: " + getMethod.getStatusLine());
+					}
+					resultStr = getMethod1.getResponseBodyAsString();
+					map = (Map<Object, Object>)JsonMapper.readStringValueToMap(resultStr);
+					System.out.println("map--------------------------"+map.toString());
+					userInfo = new UserInfo();
+//					fatUser.setCreatetime(new Date());
+//					fatUser.setUpdatetime(new Date());
+					userInfo.setOpenid(openId);
+					userInfo.setMore1((String)map.get("nickname"));
+					userInfo.setMore2((String)map.get("headimgurl"));
+					//fatUser.setTaohuanum(0d);
+					userInfoService.saveOrUpdate(userInfo);
+				}
+			}
+		}
+		model.addAttribute("info", userInfo);
+////		Integer  day = userInfoService.getDayCount(userInfo.getId());
+////			day = day ==null? 0:day;
+////		model.addAttribute("dayNum", DAY_ACOUNT-day);
+//		String url = "http://baby.hzlianhai.com"+request.getRequestURI();
+//		String query = request.getQueryString();
+//		if(StringUtils.isNotEmpty(query)){
+//			url = url + "?" +query;
+//		}
+//		model.addAttribute("map", userInfoService.findSignAllInfo(url));
+//		UserInfo t = new UserInfo();
+//		t.setPageSize(3);
+//		t.setPageNo(1);
+//		t.setSort("int_1.desc");
+//		model.addAttribute("infos", userInfoService.queryPage(t));
+		request.getSession().setAttribute("openid",userInfo.getOpenid());
+		return "handmade/gameintroduce";
+	}
+	
+	
+	@RequestMapping("toSaveUserInfo")
+	public String toSaveUserInfo(){
+		return "handmade/tosaveuserinfo";
+	}
+	
+	@RequestMapping("toMyGame")
+	public String toMyGame(){
+		return "handmade/mygame";
+	}
+	
+	@RequestMapping("toStarAtelier")
+	public String toStarAtelier(){
+		return "handmade/staratelier";
+	}
+	
+	@RequestMapping("toGameIntroduce")
+	public String toGameIntroduce(){
+		return "handmade/gameintroduce";
+	}
+	
+	@ResponseBody
+	@RequestMapping("saveUserInfo")
+	public Object saveOrUpdateUser(UserInfo userInfo){
+		String openid=(String) request.getSession().getAttribute("openid");
+		Integer firstCount=userInfoService.selectByFirstTime(userInfo);
+		Integer secondCount=userInfoService.selectBySecondTime(userInfo);
+		System.out.println("firstCount:"+firstCount);
+		System.out.println("secondCount:"+secondCount);
+		if (firstCount<=15 && secondCount<=15) {
+			UserInfo userInfo2 =userInfoService.findByOpenId(openid);
+			userInfo.setId(userInfo2.getId());
+			userInfo.setOpenid(userInfo2.getOpenid());
+			if (userInfoService.isSaveOrUpdate(userInfo)) {
+				return suc("保存成功");
+			}else {
+				return fail("保存失败");
+			}
+		}else if (firstCount>15 && secondCount <=15) {
+			return fail("初次预约比赛时间已超过十五人参加，请选择其他时间报名",null);
+		}else if (secondCount>15 && firstCount <=15) {
+			return fail("第二次预约比赛时间已超过十五人参加，请选择其他时间报名",null);
+		}else {
+			return fail("两次预约比赛时间都超过十五人，请选择其他时间报名",null);
+		}
+		
+	}
+	
+	
+
+}

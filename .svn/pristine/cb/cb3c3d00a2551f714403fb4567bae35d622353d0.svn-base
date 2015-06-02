@@ -1,0 +1,69 @@
+package com.handmade.cn.action.product;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.handmade.cn.entity.product.ProductInfo;
+import com.handmade.cn.service.material.MaterialSerivice;
+import com.handmade.cn.service.product.ProductService;
+import com.handmade.cn.utils.JsonMapper;
+import com.handmade.cn.utils.ParamUtils;
+import com.handmade.cn.web.action.BaseController;
+import com.handmade.cn.web.interceptor.AdminUserLogin;
+
+@Controller
+@RequestMapping("admin/product")
+@AdminUserLogin
+public class ProductAction extends BaseController{
+	
+	@Autowired
+	private ProductService productService;
+	@Autowired
+	private MaterialSerivice materialSerivice;
+	
+	@RequestMapping("toAddProduct")
+	public String toAddProduct(Model model,HttpServletRequest request){
+//		System.out.println("length"+id.length);
+		String materialName="";
+//		for (int i = 0; i < id.length; i++) {
+//			
+//		}
+//		model.addAttribute("materialName", materialName);
+		if (ParamUtils.getFilteredParameters(request, "id", 0, "") != null) {
+			materialName+=JsonMapper.toJsonStr(ParamUtils
+					.getFilteredParameters(request, "id", 0, ""));
+		}
+		System.out.println("Name:"+materialName);
+		model.addAttribute("materialName",materialName);
+		List<String> types= productService.findAllTypes();
+		Map<String, Object> maps= materialSerivice.findAllMaterials();
+		model.addAttribute("types", types);
+		model.addAttribute("maps", maps);
+		return "admin/product/toaddproduct";
+	}
+	
+	@ResponseBody
+	@RequestMapping("addProduct")
+	public Object addProduct(ProductInfo productInfo,Integer[] ids){
+		String materials="";
+		if (ParamUtils.getFilteredParameters(request, "ids", 0, "") != null) {
+			materials+=JsonMapper.toJsonStr(ParamUtils
+					.getFilteredParameters(request, "frontAspect", 0, ""));
+		}
+		productInfo.setMaterials(materials);
+		if (productService.saveOrUpdateProduct(productInfo)) {
+			return suc("保存成功");
+		}else {
+			return fail("保存失败");
+		}
+	}
+
+}

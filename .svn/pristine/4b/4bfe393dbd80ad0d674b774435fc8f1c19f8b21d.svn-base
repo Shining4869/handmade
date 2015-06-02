@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.handmade.cn.mapper.dianzan.DianzanlogMapper" >
+  <resultMap id="BaseResultMap" type="com.handmade.cn.entity.dianzan.Dianzanlog" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="openid" property="openid" jdbcType="VARCHAR" />
+    <result column="productid" property="productid" jdbcType="INTEGER" />
+    <result column="more1" property="more1" jdbcType="VARCHAR" />
+    <result column="more2" property="more2" jdbcType="VARCHAR" />
+    <result column="int_1" property="int1" jdbcType="INTEGER" />
+    <result column="int_2" property="int2" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, openid, productid, more1, more2, int_1, int_2, create_time, create_user, update_time, 
+    update_user
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from dianzanlog
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByProductId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from dianzanlog
+    where productid = #{Productid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from dianzanlog
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.handmade.cn.entity.dianzan.Dianzanlog" >
+    insert into dianzanlog (id, openid, productid, 
+      more1, more2, int_1, 
+      int_2, create_time, create_user, 
+      update_time, update_user)
+    values (#{id,jdbcType=INTEGER}, #{openid,jdbcType=VARCHAR}, #{productid,jdbcType=INTEGER}, 
+      #{more1,jdbcType=VARCHAR}, #{more2,jdbcType=VARCHAR}, #{int1,jdbcType=INTEGER}, 
+      #{int2,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.handmade.cn.entity.dianzan.Dianzanlog" >
+    insert into dianzanlog
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="openid != null" >
+        openid,
+      </if>
+      <if test="productid != null" >
+        productid,
+      </if>
+      <if test="more1 != null" >
+        more1,
+      </if>
+      <if test="more2 != null" >
+        more2,
+      </if>
+      <if test="int1 != null" >
+        int_1,
+      </if>
+      <if test="int2 != null" >
+        int_2,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="productid != null" >
+        #{productid,jdbcType=INTEGER},
+      </if>
+      <if test="more1 != null" >
+        #{more1,jdbcType=VARCHAR},
+      </if>
+      <if test="more2 != null" >
+        #{more2,jdbcType=VARCHAR},
+      </if>
+      <if test="int1 != null" >
+        #{int1,jdbcType=INTEGER},
+      </if>
+      <if test="int2 != null" >
+        #{int2,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.handmade.cn.entity.dianzan.Dianzanlog" >
+    update dianzanlog
+    <set >
+      <if test="openid != null" >
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="productid != null" >
+        productid = #{productid,jdbcType=INTEGER},
+      </if>
+      <if test="more1 != null" >
+        more1 = #{more1,jdbcType=VARCHAR},
+      </if>
+      <if test="more2 != null" >
+        more2 = #{more2,jdbcType=VARCHAR},
+      </if>
+      <if test="int1 != null" >
+        int_1 = #{int1,jdbcType=INTEGER},
+      </if>
+      <if test="int2 != null" >
+        int_2 = #{int2,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.handmade.cn.entity.dianzan.Dianzanlog" >
+    update dianzanlog
+    set openid = #{openid,jdbcType=VARCHAR},
+      productid = #{productid,jdbcType=INTEGER},
+      more1 = #{more1,jdbcType=VARCHAR},
+      more2 = #{more2,jdbcType=VARCHAR},
+      int_1 = #{int1,jdbcType=INTEGER},
+      int_2 = #{int2,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

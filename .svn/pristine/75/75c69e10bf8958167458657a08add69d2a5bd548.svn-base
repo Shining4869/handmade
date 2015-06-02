@@ -1,0 +1,58 @@
+package com.handmade.cn.service.product;
+
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.handmade.cn.entity.product.ProductCategory;
+import com.handmade.cn.mapper.BaseMapper;
+import com.handmade.cn.mapper.product.ProductCategoryMapper;
+import com.handmade.cn.service.BaseService;
+
+/**
+ * @author zgdcool
+ * @version 2015年5月17日 下午7:28:33
+ *   
+ */
+@Service
+public class ProductCategoryService extends BaseService<ProductCategory, Integer>{
+
+	@Autowired
+	private ProductCategoryMapper productCategoryMapper;
+	
+	@Override
+	public BaseMapper<ProductCategory, Integer> getDao() {
+		return productCategoryMapper;
+	}
+
+	@Override
+	public int saveOrUpdate(ProductCategory t) {
+		return 0;
+	}
+	
+	public Boolean save(ProductCategory t){
+		Integer count = 0;
+		if(t.getId()!=null){
+			t.setUpdateTime(new Date());
+		}else{
+			t.setCreateTime(new Date());
+			t.setUpdateTime(new Date());
+		}
+		count = productCategoryMapper.insertSelective(t);
+		if(count!=0){
+			return Boolean.TRUE;
+		}
+		return Boolean.FALSE;
+	}
+	
+	public Boolean delete(Integer id){
+		Integer count = 0;
+		count = productCategoryMapper.deleteByPrimaryKey(id);
+		if(count!=0){
+			return Boolean.TRUE;
+		}
+		return Boolean.FALSE;
+	}
+
+}

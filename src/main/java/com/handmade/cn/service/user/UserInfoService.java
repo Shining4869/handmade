@@ -1,0 +1,115 @@
+package com.handmade.cn.service.user;
+
+import java.util.Date;
+import java.util.Map;
+
+import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.googlecode.ehcache.annotations.Cacheable;
+import com.handmade.cn.entity.user.UserInfo;
+import com.handmade.cn.mapper.BaseMapper;
+import com.handmade.cn.mapper.user.UserInfoMapper;
+import com.handmade.cn.service.BaseService;
+import com.handmade.cn.utils.JsonMapper;
+import com.handmade.cn.utils.sign;
+
+@Service
+public class UserInfoService extends BaseService<UserInfo, Integer>{
+	
+	@Autowired
+	UserInfoMapper userInfoMapper;
+
+	@Override
+	public BaseMapper<UserInfo, Integer> getDao() {
+		return userInfoMapper;
+	}
+
+	@Override
+	public int saveOrUpdate(UserInfo t) {
+		t.setUpdateTime(new Date());
+		if(t.getId() == null){
+			t.setCreateTime(new Date());
+			return  userInfoMapper.insert(t);
+			
+		}
+		return  userInfoMapper.updateByPrimaryKey(t);
+	}
+	
+	public UserInfo findByOpenId(String openId){
+		return userInfoMapper.findByOpenId(openId);
+	}
+	
+	
+//	@Cacheable(cacheName="hour_cache_key")
+//    public Map<String, String> findSignAllInfo(String url) throws Exception{
+//    	String url1 = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token="+sign.getToken()+"&type=jsapi";
+//		HttpClient httpClient = new HttpClient();
+//		GetMethod getMethod = new GetMethod(url1);
+//		getMethod.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, new DefaultHttpMethodRetryHandler());
+//		int statusCode = httpClient.executeMethod(getMethod);
+//		if (statusCode != HttpStatus.SC_OK) {
+//			System.err.println("Method failed: " + getMethod.getStatusLine());
+//		}
+//		String resultStr = getMethod.getResponseBodyAsString();
+//		Map<Object, Object> map = (Map<Object, Object>)JsonMapper.readStringValueToMap(resultStr);
+//    	String jsapi_ticket = (String)map.get("ticket");
+//        // 注意 URL 一定要动态获取，不能 hardcode
+////        String url = "http://www.baidu.com?from=timeline&isappinstalled=0";
+//        Map<String, String> ret = sign.sign(jsapi_ticket, url);
+//        for (Map.Entry entry : ret.entrySet()) {
+//            System.out.println(entry.getKey() + ", " + entry.getValue());
+//        }
+//        return ret;
+//    }
+	
+	public Boolean isSaveOrUpdate(UserInfo userInfo){
+		int n=0;
+		if (userInfo.getId()!=null) {
+			 n= userInfoMapper.updateByPrimaryKeySelective(userInfo);
+			if (n==1) {
+				return Boolean.TRUE;
+			}else {
+				return Boolean.FALSE;
+			}
+		}else {
+			 n= userInfoMapper.insertSelective(userInfo);
+			if (n==1) {
+				return Boolean.TRUE;
+			}else {
+				return Boolean.FALSE;
+			}
+		}
+	}
+	
+	public Integer selectByFirstTime(UserInfo userInfo){
+		return userInfoMapper.selectByFirstTime(userInfo);
+	}
+	
+	public Integer selectBySecondTime(UserInfo userInfo){
+		return userInfoMapper.selectBySecondTime(userInfo);
+	}
+	
+	@Cacheable(cacheName="hour_cache_key")
+    public String findSignAllInfo() throws Exception{
+    	String url1 = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token="+sign.getToken()+"&type=jsapi";
+		HttpClient httpClient = new HttpClient();
+		GetMethod getMethod = new GetMethod(url1);
+		getMethod.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, new DefaultHttpMethodRetryHandler());
+		int statusCode = httpClient.executeMethod(getMethod);
+		if (statusCode != HttpStatus.SC_OK) {
+			System.err.println("Method failed: " + getMethod.getStatusLine());
+		}
+		String resultStr = getMethod.getResponseBodyAsString();
+		Map<Object, Object> map = (Map<Object, Object>)JsonMapper.readStringValueToMap(resultStr);
+    	String jsapi_ticket = (String)map.get("ticket");
+    	System.out.println("diaoyongle-------------+++++++++++++++");
+        return jsapi_ticket;
+    }
+
+}

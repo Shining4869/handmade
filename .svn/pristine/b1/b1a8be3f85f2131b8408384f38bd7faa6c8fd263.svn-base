@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.handmade.cn.mapper.material.MaterialInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.handmade.cn.entity.material.MaterialInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="material_name" property="materialName" jdbcType="VARCHAR" />
+    <result column="material_specification" property="materialSpecification" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="unit" property="unit" jdbcType="VARCHAR" />
+    <result column="unit_price" property="unitPrice" jdbcType="DOUBLE" />
+    <result column="unit_quality" property="unitQuality" jdbcType="DOUBLE" />
+    <result column="cost_price" property="costPrice" jdbcType="DOUBLE" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="more1" property="more1" jdbcType="VARCHAR" />
+    <result column="more2" property="more2" jdbcType="VARCHAR" />
+    <result column="more3" property="more3" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, image, material_name, material_specification, type, unit, unit_price, unit_quality, 
+    cost_price, create_user, create_time, update_user, update_time, more1, more2, more3
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from material_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from material_info
+    where material_name like concat('%',#{material_name,jdbcType=VARCHAR},'%')
+  </select>
+  <select id="selectByType" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from material_info
+    where type = #{type,jdbcType=VARCHAR}
+  </select>
+  <select id="findAllType" resultType="java.lang.String"  >
+    select 
+    distinct(type) 
+    from material_info
+  </select>
+  <select id="query" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from material_info
+    where 1=1 
+    <if test="image != null" >
+        and image = #{image,jdbcType=VARCHAR}
+      </if>
+      <if test="materialName != null and materialName !=''" >
+        and material_name = #{materialName,jdbcType=VARCHAR}
+      </if>
+      <if test="materialSpecification != null" >
+        and material_specification = #{materialSpecification,jdbcType=VARCHAR}
+      </if>
+      <if test="type != null" >
+        and type = #{type,jdbcType=VARCHAR}
+      </if>
+      <if test="unit != null" >
+        and unit = #{unit,jdbcType=VARCHAR}
+      </if>
+      <if test="unitPrice != null" >
+        and unit_price = #{unitPrice,jdbcType=DOUBLE}
+      </if>
+      <if test="unitQuality != null" >
+        and unit_quality = #{unitQuality,jdbcType=DOUBLE}
+      </if>
+      <if test="costPrice != null" >
+        and cost_price = #{costPrice,jdbcType=DOUBLE}
+      </if>
+      <if test="createUser != null" >
+        and create_user = #{createUser,jdbcType=VARCHAR}
+      </if>
+      <if test="createTime != null" >
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateUser != null" >
+        and update_user = #{updateUser,jdbcType=VARCHAR}
+      </if>
+      <if test="updateTime != null" >
+        and update_time = #{updateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="more1 != null" >
+        and more1 = #{more1,jdbcType=VARCHAR}
+      </if>
+      <if test="more2 != null" >
+        and more2 = #{more2,jdbcType=VARCHAR}
+      </if>
+      <if test="more3 != null" >
+        and more3 = #{more3,jdbcType=VARCHAR}
+      </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from material_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.handmade.cn.entity.material.MaterialInfo" >
+    insert into material_info (id, image, material_name, 
+      material_specification,type, unit, unit_price, 
+      unit_quality, cost_price, create_user, 
+      create_time, update_user, update_time, 
+      more1, more2, more3
+      )
+    values (#{id,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR}, #{materialName,jdbcType=VARCHAR}, 
+      #{materialSpecification,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR},#{unit,jdbcType=VARCHAR}, #{unitPrice,jdbcType=DOUBLE}, 
+      #{unitQuality,jdbcType=DOUBLE}, #{costPrice,jdbcType=DOUBLE}, #{createUser,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{more1,jdbcType=VARCHAR}, #{more2,jdbcType=VARCHAR}, #{more3,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.handmade.cn.entity.material.MaterialInfo" >
+    insert into material_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="image != null" >
+        image,
+      </if>
+      <if test="materialName != null" >
+        material_name,
+      </if>
+      <if test="materialSpecification != null" >
+        material_specification,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="unit != null" >
+        unit,
+      </if>
+      <if test="unitPrice != null" >
+        unit_price,
+      </if>
+      <if test="unitQuality != null" >
+        unit_quality,
+      </if>
+      <if test="costPrice != null" >
+        cost_price,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="more1 != null" >
+        more1,
+      </if>
+      <if test="more2 != null" >
+        more2,
+      </if>
+      <if test="more3 != null" >
+        more3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="materialName != null" >
+        #{materialName,jdbcType=VARCHAR},
+      </if>
+      <if test="materialSpecification != null" >
+        #{materialSpecification,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null" >
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPrice != null" >
+        #{unitPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="unitQuality != null" >
+        #{unitQuality,jdbcType=DOUBLE},
+      </if>
+      <if test="costPrice != null" >
+        #{costPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="more1 != null" >
+        #{more1,jdbcType=VARCHAR},
+      </if>
+      <if test="more2 != null" >
+        #{more2,jdbcType=VARCHAR},
+      </if>
+      <if test="more3 != null" >
+        #{more3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.handmade.cn.entity.material.MaterialInfo" >
+    update material_info
+    <set >
+      <if test="image != null" >
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="materialName != null" >
+        material_name = #{materialName,jdbcType=VARCHAR},
+      </if>
+      <if test="materialSpecification != null" >
+        material_specification = #{materialSpecification,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null" >
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPrice != null" >
+        unit_price = #{unitPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="unitQuality != null" >
+        unit_quality = #{unitQuality,jdbcType=DOUBLE},
+      </if>
+      <if test="costPrice != null" >
+        cost_price = #{costPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="more1 != null" >
+        more1 = #{more1,jdbcType=VARCHAR},
+      </if>
+      <if test="more2 != null" >
+        more2 = #{more2,jdbcType=VARCHAR},
+      </if>
+      <if test="more3 != null" >
+        more3 = #{more3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.handmade.cn.entity.material.MaterialInfo" >
+    update material_info
+    set image = #{image,jdbcType=VARCHAR},
+      material_name = #{materialName,jdbcType=VARCHAR},
+      material_specification = #{materialSpecification,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
+      unit_price = #{unitPrice,jdbcType=DOUBLE},
+      unit_quality = #{unitQuality,jdbcType=DOUBLE},
+      cost_price = #{costPrice,jdbcType=DOUBLE},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      more1 = #{more1,jdbcType=VARCHAR},
+      more2 = #{more2,jdbcType=VARCHAR},
+      more3 = #{more3,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
